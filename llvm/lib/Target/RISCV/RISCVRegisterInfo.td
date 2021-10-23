@@ -566,3 +566,52 @@ def AnyReg : RegisterClass<"RISCV", [untyped], 32,
                                 (sequence "V%u", 0, 31))> {
   let Size = 32;
 }
+
+// xBGAS Registers
+let RegAltNameIndices = [ABIRegAltName] in {
+  def E0  : RISCVReg<0, "e0", ["ext0"]>, DwarfRegNum<[64]>;
+  def E1  : RISCVReg<1, "e1", ["ext1"]>, DwarfRegNum<[65]>;
+  def E2  : RISCVReg<2, "e2", ["ext2"]>, DwarfRegNum<[66]>;
+  def E3  : RISCVReg<3, "e3", ["ext3"]>, DwarfRegNum<[67]>;
+  def E4  : RISCVReg<4, "e4", ["ext4"]>, DwarfRegNum<[68]>;
+  def E5  : RISCVReg<5, "e5", ["ext5"]>, DwarfRegNum<[69]>;
+  def E6  : RISCVReg<6, "e6", ["ext6"]>, DwarfRegNum<[70]>;
+  def E7  : RISCVReg<7, "e7", ["ext7"]>, DwarfRegNum<[71]>;
+  def E8  : RISCVReg<8, "e8", ["ext8"]>, DwarfRegNum<[72]>;
+  def E9  : RISCVReg<9, "e9", ["ext9"]>, DwarfRegNum<[73]>;
+  def E10 : RISCVReg<10, "e10", ["ext10"]>, DwarfRegNum<[74]>;
+  def E11 : RISCVReg<11, "e11", ["ext11"]>, DwarfRegNum<[75]>;
+  def E12 : RISCVReg<12, "e12", ["ext12"]>, DwarfRegNum<[76]>;
+  def E13 : RISCVReg<13, "e13", ["ext13"]>, DwarfRegNum<[77]>;
+  def E14 : RISCVReg<14, "e14", ["ext14"]>, DwarfRegNum<[78]>;
+  def E15 : RISCVReg<15, "e15", ["ext15"]>, DwarfRegNum<[79]>;
+  def E16 : RISCVReg<16, "e16", ["ext16"]>, DwarfRegNum<[80]>;
+  def E17 : RISCVReg<17, "e17", ["ext17"]>, DwarfRegNum<[81]>;
+  def E18 : RISCVReg<18, "e18", ["ext18"]>, DwarfRegNum<[82]>;
+  def E19 : RISCVReg<19, "e19", ["ext19"]>, DwarfRegNum<[83]>;
+  def E20 : RISCVReg<20, "e20", ["ext20"]>, DwarfRegNum<[84]>;
+  def E21 : RISCVReg<21, "e21", ["ext21"]>, DwarfRegNum<[85]>;
+  def E22 : RISCVReg<22, "e22", ["ext22"]>, DwarfRegNum<[86]>;
+  def E23 : RISCVReg<23, "e23", ["ext23"]>, DwarfRegNum<[87]>;
+  def E24 : RISCVReg<24, "e24", ["ext24"]>, DwarfRegNum<[88]>;
+  def E25 : RISCVReg<25, "e25", ["ext25"]>, DwarfRegNum<[89]>;
+  def E26 : RISCVReg<26, "e26", ["ext26"]>, DwarfRegNum<[90]>;
+  def E27 : RISCVReg<27, "e27", ["ext27"]>, DwarfRegNum<[91]>;
+  def E28 : RISCVReg<28, "e28", ["ext28"]>, DwarfRegNum<[92]>;
+  def E29 : RISCVReg<29, "e29", ["ext29"]>, DwarfRegNum<[93]>;
+  def E30 : RISCVReg<30, "e30", ["ext30"]>, DwarfRegNum<[94]>;
+  def E31 : RISCVReg<31, "e31", ["ext31"]>, DwarfRegNum<[95]>;
+}
+
+def EPR : RegisterClass<"RISCV", [XLenVT], 32, (add
+    (sequence "E%u", 10, 17),
+    (sequence "E%u", 5, 7),
+    (sequence "E%u", 28, 31),
+    (sequence "E%u", 8, 9),
+    (sequence "E%u", 18, 27),
+    (sequence "E%u", 0, 4)
+  )> {
+  let RegInfos = RegInfoByHwMode<
+      [RV32,              RV64,              DefaultMode],
+      [RegInfo<32,32,32>, RegInfo<64,64,64>, RegInfo<32,32,32>]>;
+}

@@ -75,6 +75,26 @@ static DecodeStatus DecodeGPRRegisterClass(MCInst &Inst, uint64_t RegNo,
   return MCDisassembler::Success;
 }
 
+static DecodeStatus DecodeEPRRegisterClass(MCInst &Inst, uint64_t RegNo,
+                                           uint64_t Address,
+                                           const void *Decoder) {
+
+  // Note: The following assumes a total of 16 EXT
+  // registers when xBGAS is coupled with RV32E
+  const FeatureBitset &FeatureBits =
+      static_cast<const MCDisassembler *>(Decoder)
+          ->getSubtargetInfo()
+          .getFeatureBits();
+  bool IsRV32E = FeatureBits[RISCV::FeatureRV32E];
+
+  if (RegNo >= 32 || (IsRV32E && RegNo >= 16))
+    return MCDisassembler::Fail;
+
+  MCRegister Reg = RISCV::E0 + RegNo;
+  Inst.addOperand(MCOperand::createReg(Reg));
+  return MCDisassembler::Success;
+}
+
 static DecodeStatus DecodeFPR16RegisterClass(MCInst &Inst, uint64_t RegNo,
                                              uint64_t Address,
                                              const void *Decoder) {

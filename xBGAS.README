@@ -1,0 +1,57 @@
+Building the xBGAS backend requires;
+cmake -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="RISCV" -DLLVM_TARGETS_TO_BUILD="RISCV"
+
+
+================================================================================
+Building for RV32
+
+- Build the latest riscv-gnu-toolchain for RV32
+git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
+cd riscv-gnu-toolchain
+./configure --prefix=/your/gccinstallpath --with-arch=rv32imc --with-abi=ilp32
+
+- Build the LLVM toolchain
+cd xbgas-llvm
+mkdir build
+cd build
+cmake -G Ninja -DCMAKE_BUILD_TYPE="Debug" \
+  -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
+  -DLLVM_OPTIMIZED_TABLEGEN=True \
+  -DLLVM_BUILD_TESTS=True \
+  -DDEFAULT_SYSROOT="/path/to/riscv-gcc-install-path/riscv32-unknown-elf" \
+  -DGCC_INSTALL_PREFIX="/path/to/riscv-gcc-install-path" \
+  -DLLVM_DEFAULT_TARGET_TRIPLE="riscv32-unknown-elf" \
+  -DLLVM_TARGETS_TO_BUILD="RISCV" \
+  -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="RISCV" ../
+make
+
+- Building an application with Clang
+First, copy over the "crtbegin.o" and "crtend.o" from
+/your/gccinstallpath/lib/gcc/riscv32-unknown-elf/8.3.0/ to your current directory.
+Now, use the following build directions (from ~/xbgas-llvm/build/)
+
+./bin/clang -march=rv32i -o hello.exe hello.c -B /your/gccinstallpath/bin \
+  -L/yourgccinstallpath/lib/gcc/riscv32-unknown-elf/8.3.0
+
+
+This will build and link an rv32i binary.
+
+
+================================================================================
+Building with debug assertions enabled
+
+cmake -G Ninja -DCMAKE_BUILD_TYPE="Debug" \
+  -DLLVM_ENABLE_ASSERTIONS=On \
+  -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
+  -DLLVM_OPTIMIZED_TABLEGEN=True \
+  -DLLVM_BUILD_TESTS=True \
+  -DDEFAULT_SYSROOT="/path/to/riscv-gcc-install-path/riscv32-unknown-elf" \
+  -DGCC_INSTALL_PREFIX="/path/to/riscv-gcc-install-path" \
+  -DLLVM_DEFAULT_TARGET_TRIPLE="riscv32-unknown-elf" \
+  -DLLVM_TARGETS_TO_BUILD="RISCV" \
+  -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="RISCV" ../
+make
+
+..then use:
+./build/bin/clang -march=rv32i <options> -mllvm -debug
+

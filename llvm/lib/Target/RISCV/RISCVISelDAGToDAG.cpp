@@ -27,6 +27,8 @@ using namespace llvm;
 
 #define DEBUG_TYPE "riscv-isel"
 
+#define _XBGAS_ADDR_SPACE_ 127
+
 namespace llvm {
 namespace RISCV {
 #define GET_RISCVVSSEGTable_IMPL
@@ -1516,6 +1518,24 @@ bool RISCVDAGToDAGISel::SelectAddrFI(SDValue Addr, SDValue &Base) {
   if (auto *FIN = dyn_cast<FrameIndexSDNode>(Addr)) {
     Base = CurDAG->getTargetFrameIndex(FIN->getIndex(), Subtarget->getXLenVT());
     return true;
+  }
+  return false;
+}
+
+// Interrogate the operand address space designators
+// If the address space matches the xBGAS address space, return true
+// Otherwise, return false
+bool RISCVDAGToDAGISel::SelectAddrXB(SDValue Addr, SDValue &Base) {
+  LLVM_DEBUG(dbgs() << "SelectAddrXB DAG Selection\n");
+  if (auto M = dyn_cast<MemSDNode>(Addr)){
+    LLVM_DEBUG(dbgs() << "SelectAddrXB MemSDNode Node:\nNode:    ");
+    LLVM_DEBUG(Addr->dump());
+    LLVM_DEBUG(dbgs() << "AddrSpace=" << M->getPointerInfo().getAddrSpace());
+    if( M->getPointerInfo().getAddrSpace() == _XBGAS_ADDR_SPACE_ ){
+      LLVM_DEBUG(dbgs() << "Memory node is xBGAS address space\n");
+      Base = Addr;
+      return true;
+    }
   }
   return false;
 }

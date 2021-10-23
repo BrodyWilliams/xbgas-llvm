@@ -133,6 +133,12 @@ def OPC_JALR      : RISCVOpcode<0b1100111>;
 def OPC_JAL       : RISCVOpcode<0b1101111>;
 def OPC_SYSTEM    : RISCVOpcode<0b1110011>;
 
+// xBGAS
+def OPC_ELOAD     : RISCVOpcode<0b1110111>;
+def OPC_ESTORE    : RISCVOpcode<0b1111011>;
+def OPC_ERAW      : RISCVOpcode<0b0110011>;
+def OPC_EARITH    : RISCVOpcode<0b0000011>;
+
 class RVInst<dag outs, dag ins, string opcodestr, string argstr,
              list<dag> pattern, InstFormat format>
     : Instruction {
