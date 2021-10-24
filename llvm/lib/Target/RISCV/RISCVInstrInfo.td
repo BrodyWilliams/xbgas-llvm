@@ -477,12 +477,12 @@ class Priv<string opcodestr, bits<7> funct7>
 //===----------------------------------------------------------------------===//
 // xBGAS Instruction Class Templates
 //===----------------------------------------------------------------------===//
-let hasSideEffects = 0, mayLoad = 1, mayStore = 0 in
+let hasSideEffects = 0, mayLoad = 1, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Load_Eri<bits<3> funct3, string opcodestr>
     : RVInstI<funct3, OPC_ELOAD, (outs GPR:$rd), (ins GPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${imm12}(${rs1})">;
 
-let hasSideEffects = 0, mayLoad = 1, mayStore = 0 in
+let hasSideEffects = 0, mayLoad = 1, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Load_Eeri<bits<3> funct3, string opcodestr>
     : RVInstI<funct3, OPC_ELOAD, (outs EPR:$rd), (ins GPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${imm12}(${rs1})">;
@@ -490,51 +490,51 @@ class Load_Eeri<bits<3> funct3, string opcodestr>
 // Operands for stores are in the order srcreg, base, offset rather than
 // reflecting the order these fields are specified in the instruction
 // encoding.
-let hasSideEffects = 0, mayLoad = 0, mayStore = 1 in
+let hasSideEffects = 0, mayLoad = 0, mayStore = 1, hasNoSchedulingInfo = 1 in
 class Store_Erri<bits<3> funct3, string opcodestr>
     : RVInstS<funct3, OPC_ESTORE, (outs),
               (ins GPR:$rs2, GPR:$rs1, simm12:$imm12),
               opcodestr, "$rs2, ${imm12}(${rs1})">;
 
-let hasSideEffects = 0, mayLoad = 0, mayStore = 1 in
+let hasSideEffects = 0, mayLoad = 0, mayStore = 1, hasNoSchedulingInfo = 1 in
 class Store_Eerri<bits<3> funct3, string opcodestr>
     : RVInstS<funct3, OPC_ESTORE, (outs),
               (ins EPR:$rs2, GPR:$rs1, simm12:$imm12),
               opcodestr, "$rs2, ${imm12}(${rs1})">;
 
-let hasSideEffects = 0, mayLoad = 1, mayStore = 0 in
+let hasSideEffects = 0, mayLoad = 1, mayStore = 0, hasNoSchedulingInfo = 1 in
 class ALU_Lrre<bits<7> funct7, bits<3> funct3, string opcodestr>
     : RVInstR<funct7, funct3, OPC_ERAW, (outs GPR:$rd), (ins GPR:$rs1, EPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
-let hasSideEffects = 0, mayLoad = 1, mayStore = 0 in
+let hasSideEffects = 0, mayLoad = 1, mayStore = 0, hasNoSchedulingInfo = 1 in
 class ALU_Lere<bits<7> funct7, bits<3> funct3, string opcodestr>
     : RVInstR<funct7, funct3, OPC_ERAW, (outs EPR:$rd), (ins GPR:$rs1, EPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
-let hasSideEffects = 0, mayLoad = 0, mayStore = 1 in
+let hasSideEffects = 0, mayLoad = 0, mayStore = 1, hasNoSchedulingInfo = 1 in
 class ALU_Srre<bits<7> funct7, bits<3> funct3, string opcodestr>
     : RVInstR<funct7, funct3, OPC_ERAW, (outs EPR:$rd), (ins GPR:$rs1, GPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
-let hasSideEffects = 0, mayLoad = 0, mayStore = 1 in
+let hasSideEffects = 0, mayLoad = 0, mayStore = 1, hasNoSchedulingInfo = 1 in
 class ALU_Sere<bits<7> funct7, bits<3> funct3, string opcodestr>
     : RVInstR<funct7, funct3, OPC_ERAW, (outs EPR:$rd), (ins EPR:$rs1, GPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
-let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Store_Mre<bits<3> funct3, string opcodestr>
     : RVInstS<funct3, OPC_ESTORE, (outs),
               (ins EPR:$rd, GPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${rs1}, ${imm12}">;
 
-let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Store_Mer<bits<3> funct3, string opcodestr>
     : RVInstS<funct3, OPC_ESTORE, (outs),
               (ins GPR:$rd, EPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${rs1}, ${imm12}">;
 
-let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Store_Mee<bits<3> funct3, string opcodestr>
     : RVInstS<funct3, OPC_EARITH, (outs),
               (ins EPR:$rd, EPR:$rs1, simm12:$imm12),
