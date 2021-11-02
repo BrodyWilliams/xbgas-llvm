@@ -540,6 +540,11 @@ class Store_Mee<bits<3> funct3, string opcodestr>
               (ins EPR:$rd, EPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${rs1}, ${imm12}">;
 
+let hasSideEffects = 0, mayLoad = 1, mayStore = 1, hasNoSchedulingInfo = 1 in
+class EAMO_rr<bits<7> funct7, bits<3> funct3, string opcodestr>
+    : RVInstR<funct7, funct3, OPC_EAMO, (outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2),
+              opcodestr, "$rd, $rs1, $rs2">;
+
 //===----------------------------------------------------------------------===//
 // Instructions
 //===----------------------------------------------------------------------===//
@@ -725,6 +730,15 @@ def EADDI  : Store_Mer<0b110, "eaddi">;
 def EADDIE : Store_Mre<0b111, "eaddie">;
 def EADDIX : Store_Mee<0b111, "eaddix">;
 
+// -- xBGAS 32-bit AMOs
+def EAMOADD_W : EAMO_rr<0b0000000, 0b010, "eamoadd.w">;
+def EAMOXOR_W : EAMO_rr<0b0000001, 0b010, "eamoxor.w">;
+def EAMOAND_W : EAMO_rr<0b0000010, 0b010, "eamoand.w">;
+def EAMOOR_W  : EAMO_rr<0b0000011, 0b010, "eamoor.w">;
+def EAMOMIN_W : EAMO_rr<0b0000100, 0b010, "eamomin.w">;
+def EAMOMAX_W : EAMO_rr<0b0000101, 0b010, "eamomax.w">;
+def EAMOCAS_W : EAMO_rr<0b0000110, 0b010, "eamocas.w">;
+
 // -- RV64I Compatible xBGAS Instructions
 let Predicates = [IsRV64] in {
   // -- 64-bit Extended Load: xBGAS Spec Table 2
@@ -746,6 +760,15 @@ let Predicates = [IsRV64] in {
   def ERLE  : ALU_Lere<0b0100001, 0b100, "erle">;
   def ERSD  : ALU_Srre<0b0100010, 0b011, "ersd">;
   def ERSE  : ALU_Sere<0b0100011, 0b011, "erse">;
+
+  // -- xBGAS 64-bit AMOs
+  def EAMOADD_D : EAMO_rr<0b0000000, 0b011, "eamoadd.d">;
+  def EAMOXOR_D : EAMO_rr<0b0000001, 0b011, "eamoxor.d">;
+  def EAMOAND_D : EAMO_rr<0b0000010, 0b011, "eamoand.d">;
+  def EAMOOR_D  : EAMO_rr<0b0000011, 0b011, "eamoor.d">;
+  def EAMOMIN_D : EAMO_rr<0b0000100, 0b011, "eamomin.d">;
+  def EAMOMAX_D : EAMO_rr<0b0000101, 0b011, "eamomax.d">;
+  def EAMOCAS_D : EAMO_rr<0b0000110, 0b011, "eamocas.d">;
 } // Predicates = [IsRV64]
 
 //===----------------------------------------------------------------------===//

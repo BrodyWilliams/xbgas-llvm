@@ -138,6 +138,7 @@ def OPC_ELOAD     : RISCVOpcode<0b1110111>;
 def OPC_ESTORE    : RISCVOpcode<0b1111011>;
 def OPC_ERAW      : RISCVOpcode<0b0110011>;
 def OPC_EARITH    : RISCVOpcode<0b0000011>;
+def OPC_EAMO      : RISCVOpcode<0b1110111>;
 
 class RVInst<dag outs, dag ins, string opcodestr, string argstr,
              list<dag> pattern, InstFormat format>
