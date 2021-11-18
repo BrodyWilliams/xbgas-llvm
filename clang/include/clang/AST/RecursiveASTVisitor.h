@@ -3094,6 +3094,12 @@ RecursiveASTVisitor<Derived>::VisitOMPNumThreadsClause(OMPNumThreadsClause *C) {
 }
 
 template <typename Derived>
+bool RecursiveASTVisitor<Derived>::VisitOMPAlignClause(OMPAlignClause *C) {
+  TRY_TO(TraverseStmt(C->getAlignment()));
+  return true;
+}
+
+template <typename Derived>
 bool RecursiveASTVisitor<Derived>::VisitOMPSafelenClause(OMPSafelenClause *C) {
   TRY_TO(TraverseStmt(C->getSafelen()));
   return true;
@@ -3673,6 +3679,11 @@ template <typename Derived>
 bool RecursiveASTVisitor<Derived>::VisitOMPFilterClause(OMPFilterClause *C) {
   TRY_TO(VisitOMPClauseWithPreInit(C));
   TRY_TO(TraverseStmt(C->getThreadID()));
+  return true;
+}
+
+template <typename Derived>
+bool RecursiveASTVisitor<Derived>::VisitOMPBindClause(OMPBindClause *C) {
   return true;
 }
 
