@@ -545,6 +545,11 @@ class EAMO_rr<bits<7> funct7, bits<3> funct3, string opcodestr>
     : RVInstR<funct7, funct3, OPC_EAMO, (outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
+let hasSideEffects = 1, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
+class EAG_rr<bits<7> funct7, bits<3> funct3, string opcodestr>
+    : RVInstR<funct7, funct3, OPC_EAG, (outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2),
+              opcodestr, "$rd, $rs1, $rs2">;
+
 //===----------------------------------------------------------------------===//
 // Instructions
 //===----------------------------------------------------------------------===//
@@ -738,6 +743,9 @@ def EAMOOR_W  : EAMO_rr<0b0000011, 0b010, "eamoor.w">;
 def EAMOMIN_W : EAMO_rr<0b0000100, 0b010, "eamomin.w">;
 def EAMOMAX_W : EAMO_rr<0b0000101, 0b010, "eamomax.w">;
 def EAMOCAS_W : EAMO_rr<0b0000110, 0b010, "eamocas.w">;
+
+// -- xBGAS Aggregation Instruction
+def EAG : EAG_rr<0b0001000, 0b001, "eag">;
 
 // -- RV64I Compatible xBGAS Instructions
 let Predicates = [IsRV64] in {
