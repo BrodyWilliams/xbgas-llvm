@@ -514,29 +514,29 @@ class ALU_Lere<bits<7> funct7, bits<3> funct3, string opcodestr>
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 1, hasNoSchedulingInfo = 1 in
 class ALU_Srre<bits<7> funct7, bits<3> funct3, string opcodestr>
-    : RVInstR<funct7, funct3, OPC_ERAW, (outs EPR:$rd), (ins GPR:$rs1, GPR:$rs2),
+    : RVInstR<funct7, funct3, OPC_ERAW, (outs), (ins GPR:$rd, GPR:$rs1, EPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 1, hasNoSchedulingInfo = 1 in
 class ALU_Sere<bits<7> funct7, bits<3> funct3, string opcodestr>
-    : RVInstR<funct7, funct3, OPC_ERAW, (outs EPR:$rd), (ins EPR:$rs1, GPR:$rs2),
+    : RVInstR<funct7, funct3, OPC_ERAW, (outs EPR:$rd), (ins GPR:$rs1, EPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Store_Mre<bits<3> funct3, string opcodestr>
-    : RVInstS<funct3, OPC_ESTORE, (outs),
+    : RVInstI<funct3, OPC_ESTORE, (outs),
               (ins EPR:$rd, GPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${rs1}, ${imm12}">;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Store_Mer<bits<3> funct3, string opcodestr>
-    : RVInstS<funct3, OPC_ESTORE, (outs),
+    : RVInstI<funct3, OPC_ESTORE, (outs),
               (ins GPR:$rd, EPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${rs1}, ${imm12}">;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
 class Store_Mee<bits<3> funct3, string opcodestr>
-    : RVInstS<funct3, OPC_EARITH, (outs),
+    : RVInstI<funct3, OPC_EARITH, (outs),
               (ins EPR:$rd, EPR:$rs1, simm12:$imm12),
               opcodestr, "$rd, ${rs1}, ${imm12}">;
 
