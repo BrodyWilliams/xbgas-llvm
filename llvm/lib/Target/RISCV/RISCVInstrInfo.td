@@ -541,12 +541,12 @@ class Store_Mee<bits<3> funct3, string opcodestr>
               opcodestr, "$rd, ${rs1}, ${imm12}">;
 
 let hasSideEffects = 0, mayLoad = 1, mayStore = 1, hasNoSchedulingInfo = 1 in
-class EAMO_rr<bits<7> funct7, bits<3> funct3, string opcodestr>
+class EAMO_rrr<bits<7> funct7, bits<3> funct3, string opcodestr>
     : RVInstR<funct7, funct3, OPC_EAMO, (outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
 let hasSideEffects = 1, mayLoad = 0, mayStore = 0, hasNoSchedulingInfo = 1 in
-class EAG_rr<bits<7> funct7, bits<3> funct3, string opcodestr>
+class EAG_rrr<bits<7> funct7, bits<3> funct3, string opcodestr>
     : RVInstR<funct7, funct3, OPC_EAG, (outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2),
               opcodestr, "$rd, $rs1, $rs2">;
 
@@ -736,16 +736,16 @@ def EADDIE : Store_Mre<0b111, "eaddie">;
 def EADDIX : Store_Mee<0b111, "eaddix">;
 
 // -- xBGAS 32-bit AMOs
-def EAMOADD_W : EAMO_rr<0b0000000, 0b010, "eamoadd.w">;
-def EAMOXOR_W : EAMO_rr<0b0000001, 0b010, "eamoxor.w">;
-def EAMOAND_W : EAMO_rr<0b0000010, 0b010, "eamoand.w">;
-def EAMOOR_W  : EAMO_rr<0b0000011, 0b010, "eamoor.w">;
-def EAMOMIN_W : EAMO_rr<0b0000100, 0b010, "eamomin.w">;
-def EAMOMAX_W : EAMO_rr<0b0000101, 0b010, "eamomax.w">;
-def EAMOCAS_W : EAMO_rr<0b0000110, 0b010, "eamocas.w">;
+def EAMOADD_W : EAMO_rrr<0b0000000, 0b010, "eamoadd.w">;
+def EAMOXOR_W : EAMO_rrr<0b0000001, 0b010, "eamoxor.w">;
+def EAMOAND_W : EAMO_rrr<0b0000010, 0b010, "eamoand.w">;
+def EAMOOR_W  : EAMO_rrr<0b0000011, 0b010, "eamoor.w">;
+def EAMOMIN_W : EAMO_rrr<0b0000100, 0b010, "eamomin.w">;
+def EAMOMAX_W : EAMO_rrr<0b0000101, 0b010, "eamomax.w">;
+def EAMOCAS_W : EAMO_rrr<0b0000110, 0b010, "eamocas.w">;
 
 // -- xBGAS Aggregation Instruction
-def EAG : EAG_rr<0b0001000, 0b001, "eag">;
+def EAG : EAG_rrr<0b0001000, 0b001, "eag">;
 
 // -- RV64I Compatible xBGAS Instructions
 let Predicates = [IsRV64] in {
@@ -770,13 +770,13 @@ let Predicates = [IsRV64] in {
   def ERSE  : ALU_Sere<0b0100011, 0b011, "erse">;
 
   // -- xBGAS 64-bit AMOs
-  def EAMOADD_D : EAMO_rr<0b0000000, 0b011, "eamoadd.d">;
-  def EAMOXOR_D : EAMO_rr<0b0000001, 0b011, "eamoxor.d">;
-  def EAMOAND_D : EAMO_rr<0b0000010, 0b011, "eamoand.d">;
-  def EAMOOR_D  : EAMO_rr<0b0000011, 0b011, "eamoor.d">;
-  def EAMOMIN_D : EAMO_rr<0b0000100, 0b011, "eamomin.d">;
-  def EAMOMAX_D : EAMO_rr<0b0000101, 0b011, "eamomax.d">;
-  def EAMOCAS_D : EAMO_rr<0b0000110, 0b011, "eamocas.d">;
+  def EAMOADD_D : EAMO_rrr<0b0000000, 0b011, "eamoadd.d">;
+  def EAMOXOR_D : EAMO_rrr<0b0000001, 0b011, "eamoxor.d">;
+  def EAMOAND_D : EAMO_rrr<0b0000010, 0b011, "eamoand.d">;
+  def EAMOOR_D  : EAMO_rrr<0b0000011, 0b011, "eamoor.d">;
+  def EAMOMIN_D : EAMO_rrr<0b0000100, 0b011, "eamomin.d">;
+  def EAMOMAX_D : EAMO_rrr<0b0000101, 0b011, "eamomax.d">;
+  def EAMOCAS_D : EAMO_rrr<0b0000110, 0b011, "eamocas.d">;
 } // Predicates = [IsRV64]
 
 //===----------------------------------------------------------------------===//
